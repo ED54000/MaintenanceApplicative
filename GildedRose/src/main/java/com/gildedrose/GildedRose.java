@@ -11,54 +11,69 @@ class GildedRose {
     }
 
     public void updateQuality() {
-        for (int i = 0; i < items.length; i++) {
-            if (!items[i].name.equals(AGED_BRIE)
-                    && !items[i].name.equals(BACKSTAGE_PASSES_TO_A_TAFKAL80ETC_CONCERT)) {
-                if (items[i].quality > 0) {
-                    if (!items[i].name.equals(SULFURAS_HAND_OF_RAGNAROS)) {
-                        items[i].quality = items[i].quality - 1;
-                    }
+        for (Item item : items) {
+            handleItem(item);
+        }
+    }
+
+    public void handleItem(Item item) {
+        if (item.name.equals(AGED_BRIE)) {
+            handleBrie(item);
+        } else if (item.name.equals(BACKSTAGE_PASSES_TO_A_TAFKAL80ETC_CONCERT)) {
+            handleConcert(item);
+        } else if (item.name.equals(SULFURAS_HAND_OF_RAGNAROS)) {
+            handleSulfuras(item);
+        } else {
+           handleDefault(item);
+
+        }
+
+    }
+
+    public void handleBrie(Item item) {
+        if (item.quality < 50) {
+            item.quality = item.quality + 1;
+            if (item.sellIn < 6) {
+                if (item.quality < 50) {
+                    item.quality = item.quality + 1;
                 }
-            } else {
-                if (items[i].quality < 50) {
-                    items[i].quality = items[i].quality + 1;
+            }
+            item.sellIn = item.sellIn - 1;
+        }
+    }
 
-                    if (items[i].name.equals(BACKSTAGE_PASSES_TO_A_TAFKAL80ETC_CONCERT)) {
-                        if (items[i].sellIn < 11) {
-                            if (items[i].quality < 50) {
-                                items[i].quality = items[i].quality + 1;
-                            }
-                        }
+    public void handleConcert(Item item) {
+        if (item.quality < 50) {
+            item.quality = item.quality + 1;
 
-                        if (items[i].sellIn < 6) {
-                            if (items[i].quality < 50) {
-                                items[i].quality = items[i].quality + 1;
-                            }
-                        }
+            if (item.sellIn < 11) {
+                if (item.quality < 50) {
+                    item.quality = item.quality + 1;
+                }
+                if (item.sellIn < 6) {
+                    if (item.quality < 50) {
+                        item.quality = item.quality + 1;
                     }
                 }
             }
+        }
+        item.sellIn = item.sellIn - 1;
+        if (item.sellIn < 0) {
+            item.quality = item.quality - item.quality;
+        }
 
-            if (!items[i].name.equals(SULFURAS_HAND_OF_RAGNAROS)) {
-                items[i].sellIn = items[i].sellIn - 1;
-            }
+    }
 
-            if (items[i].sellIn < 0) {
-                if (!items[i].name.equals(AGED_BRIE)) {
-                    if (!items[i].name.equals(BACKSTAGE_PASSES_TO_A_TAFKAL80ETC_CONCERT)) {
-                        if (items[i].quality > 0) {
-                            if (!items[i].name.equals(SULFURAS_HAND_OF_RAGNAROS)) {
-                                items[i].quality = items[i].quality - 1;
-                            }
-                        }
-                    } else {
-                        items[i].quality = items[i].quality - items[i].quality;
-                    }
-                } else {
-                    if (items[i].quality < 50) {
-                        items[i].quality = items[i].quality + 1;
-                    }
-                }
+    public void handleSulfuras(Item item) {
+
+    }
+
+    public void handleDefault(Item item){
+        if (item.quality > 0) {
+            item.quality = item.quality - 1;
+            item.sellIn = item.sellIn - 1;
+            if (item.sellIn < 0) {
+                item.quality = item.quality - 1;
             }
         }
     }

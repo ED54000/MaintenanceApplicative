@@ -66,6 +66,14 @@ class GildedRoseTest {
     }
 
     @Test
+    void TestAgedBrieQuality50(){
+        Item[] items =  new Item[] {new Item("Aged Brie", 0, 50)};
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertEquals(50, app.items[0].quality);
+    }
+
+    @Test
     void TestAgedBrieQualityUnder50(){
         Item[] items =  new Item[] {new Item("Aged Brie", 0, 49)};
         GildedRose app = new GildedRose(items);
@@ -96,6 +104,15 @@ class GildedRoseTest {
         app.updateQuality();
         assertEquals(50, app.items[0].quality);
     }
+
+    @Test
+    void TestConcert11SellIn(){
+        Item[] items = new Item[] {new Item("Backstage passes to a TAFKAL80ETC concert", 11,40)};
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertEquals(41, app.items[0].quality);
+    }
+
 
     @Test
     void TestConcertLowSellInUnder50(){
