@@ -1,80 +1,39 @@
 package com.gildedrose;
 
+import java.util.ArrayList;
+
 class GildedRose {
     private static final String SULFURAS_HAND_OF_RAGNAROS = "Sulfuras, Hand of Ragnaros";
     private static final String AGED_BRIE = "Aged Brie";
     private static final String BACKSTAGE_PASSES_TO_A_TAFKAL80ETC_CONCERT = "Backstage passes to a TAFKAL80ETC concert";
-    Item[] items;
+    ArrayList<ObjectAbstract> items = new ArrayList<ObjectAbstract>();
 
     public GildedRose(Item[] items) {
-        this.items = items;
+        for (Item item : items) {
+            ObjectAbstract itemCreate;
+            switch (item.name) {
+                case AGED_BRIE:
+                    itemCreate = new Brie(item.name, item.sellIn, item.quality);
+                    break;
+                case BACKSTAGE_PASSES_TO_A_TAFKAL80ETC_CONCERT:
+                    itemCreate = new Concert(item.name, item.sellIn, item.quality);
+                    break;
+                case SULFURAS_HAND_OF_RAGNAROS:
+                    itemCreate = new Sulfuras(item.name, item.sellIn, item.quality);
+                    break;
+                default:
+                    itemCreate = new ObjectDefault(item.name, item.sellIn, item.quality);
+                    break;
+            }
+            this.items.add(itemCreate);
+
+        }
     }
 
     public void updateQuality() {
-        for (Item item : items) {
-            handleItem(item);
+        for (ObjectAbstract item : items) {
+            item.handle();
         }
     }
 
-    public void handleItem(Item item) {
-        if (item.name.equals(AGED_BRIE)) {
-            handleBrie(item);
-        } else if (item.name.equals(BACKSTAGE_PASSES_TO_A_TAFKAL80ETC_CONCERT)) {
-            handleConcert(item);
-        } else if (item.name.equals(SULFURAS_HAND_OF_RAGNAROS)) {
-            handleSulfuras(item);
-        } else {
-           handleDefault(item);
-
-        }
-
-    }
-
-    public void handleBrie(Item item) {
-        if (item.quality < 50) {
-            item.quality = item.quality + 1;
-            if (item.sellIn < 6) {
-                if (item.quality < 50) {
-                    item.quality = item.quality + 1;
-                }
-            }
-            item.sellIn = item.sellIn - 1;
-        }
-    }
-
-    public void handleConcert(Item item) {
-        if (item.quality < 50) {
-            item.quality = item.quality + 1;
-
-            if (item.sellIn < 11) {
-                if (item.quality < 50) {
-                    item.quality = item.quality + 1;
-                }
-                if (item.sellIn < 6) {
-                    if (item.quality < 50) {
-                        item.quality = item.quality + 1;
-                    }
-                }
-            }
-        }
-        item.sellIn = item.sellIn - 1;
-        if (item.sellIn < 0) {
-            item.quality = item.quality - item.quality;
-        }
-
-    }
-
-    public void handleSulfuras(Item item) {
-
-    }
-
-    public void handleDefault(Item item){
-        if (item.quality > 0) {
-            item.quality = item.quality - 1;
-            item.sellIn = item.sellIn - 1;
-            if (item.sellIn < 0) {
-                item.quality = item.quality - 1;
-            }
-        }
-    }
 }
