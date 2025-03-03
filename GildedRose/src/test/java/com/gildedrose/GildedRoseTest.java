@@ -17,10 +17,6 @@ class GildedRoseTest {
         assertEquals("foo", app.items.get(0).name);
     }
 
-
-
-
-
     @Test
     void TestUpdatedStillZero(){
         Item[] items =  new Item[] {new Item("ItemBadQuality", 0, 0)};
@@ -77,7 +73,7 @@ class GildedRoseTest {
         app.updateQuality();
         assertEquals(50, app.items.get(0).quality);
     }
-    
+
     @Test
     void TestAgedBrieQualityUnder49LotSellIn(){
         Item[] items =  new Item[] {new Item("Aged Brie", 10, 48)};
@@ -167,13 +163,22 @@ class GildedRoseTest {
         Item[] items = new Item[] {new Item( "Sulfuras, Hand of Ragnaros", 0, 20)};
         GildedRose app = new GildedRose(items);
         app.updateQuality();
-        assertEquals(20, app.items.get(0).quality);
+        assertEquals(80, app.items.get(0).quality);
     }
 
+    @Test
     void TestSulfuras2() {
         Item[] items = new Item[] { new Item("Sulfuras, Hand of Ragnaros", 10, 5) };
         GildedRose app = new GildedRose(items);
         app.updateQuality();
-        assertEquals(4, app.items.get(0).quality);
+        assertEquals(80, app.items.get(0).quality);
+    }
+
+    @Test
+    void TestSulfuras3() {
+        Item[] items = new Item[] { new Item("Sulfuras, Hand of Ragnaros", 10, 50) };
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertEquals(80, app.items.get(0).quality);
     }
 }

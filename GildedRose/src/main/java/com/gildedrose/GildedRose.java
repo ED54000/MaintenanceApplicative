@@ -10,19 +10,20 @@ class GildedRose {
 
     public GildedRose(Item[] items) {
         for (Item item : items) {
+            boolean conjured = false;
             ObjectAbstract itemCreate;
             switch (item.name) {
                 case AGED_BRIE:
-                    itemCreate = new Brie(item.name, item.sellIn, item.quality);
+                    itemCreate = new Brie(item.name, item.sellIn, item.quality,conjured);
                     break;
                 case BACKSTAGE_PASSES_TO_A_TAFKAL80ETC_CONCERT:
-                    itemCreate = new Concert(item.name, item.sellIn, item.quality);
+                    itemCreate = new Concert(item.name, item.sellIn, item.quality,conjured);
                     break;
                 case SULFURAS_HAND_OF_RAGNAROS:
-                    itemCreate = new Sulfuras(item.name, item.sellIn, item.quality);
+                    itemCreate = new Sulfuras(item.name, item.sellIn, item.quality,conjured);
                     break;
                 default:
-                    itemCreate = new ObjectDefault(item.name, item.sellIn, item.quality);
+                    itemCreate = new ObjectDefault(item.name, item.sellIn, item.quality,conjured);
                     break;
             }
             this.items.add(itemCreate);
