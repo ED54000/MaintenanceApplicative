@@ -42,16 +42,16 @@ public class GameTest {
 			// WARNING: System.out.println() doesn't work in this try {} as the sysout is captured and recorded in memory.
 			System.setOut(inmemory);
 
-			aGame.add("Chet");
-			aGame.add("Pat");
-			aGame.add("Sue");
+			aGame.addPlayer("Chet");
+			aGame.addPlayer("Pat");
+			aGame.addPlayer("Sue");
 
 			boolean notAWinner = false;
 			do {
 				aGame.roll(rand.nextInt(5) + 1);
 
 				if (rand.nextInt(9) == 7) {
-					notAWinner = aGame.wrongAnswer();
+					notAWinner = aGame.handleWrongAnswer();
 				} else {
 					notAWinner = aGame.handleCorrectAnswer();
 				}

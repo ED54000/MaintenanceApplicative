@@ -36,7 +36,7 @@ public class GameOld implements IGame {
       return (howManyPlayers() >= 2);
    }
 
-   public boolean add(String playerName) {
+   public boolean addPlayer(String playerName) {
       places[howManyPlayers()] = 1;
       purses[howManyPlayers()] = 0;
       inPenaltyBox[howManyPlayers()] = false;
@@ -150,7 +150,7 @@ public class GameOld implements IGame {
       }
    }
 
-   public boolean wrongAnswer() {
+   public boolean handleWrongAnswer() {
       System.out.println("Question was incorrectly answered");
       System.out.println(players.get(currentPlayer) + " was sent to the penalty box");
       inPenaltyBox[currentPlayer] = true;
