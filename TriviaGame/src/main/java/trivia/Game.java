@@ -9,7 +9,7 @@ import java.util.Map;
 // REFACTOR ME
 public class Game implements IGame {
    private ArrayList<String> players = new ArrayList<>();
-   private int[] places = new int[6];
+   private int[] playerPosition = new int[6];
    private int[] score = new int[6];
    private boolean[] inPenaltyBox = new boolean[6];
 
@@ -36,7 +36,7 @@ public class Game implements IGame {
    }
 
    public boolean add(String playerName) {
-      places[howManyPlayers()] = 1;
+      playerPosition[howManyPlayers()] = 1;
       score[howManyPlayers()] = 0;
       inPenaltyBox[howManyPlayers()] = false;
       players.add(playerName);
@@ -59,13 +59,13 @@ public class Game implements IGame {
             isGettingOutOfPenaltyBox = true;
 
             System.out.println(players.get(currentPlayer) + " is getting out of the penalty box");
-            places[currentPlayer] = places[currentPlayer] + roll;
-            if (places[currentPlayer] > 12)
-               places[currentPlayer] = places[currentPlayer] - 12;
+            playerPosition[currentPlayer] = playerPosition[currentPlayer] + roll;
+            if (playerPosition[currentPlayer] > 12)
+               playerPosition[currentPlayer] = playerPosition[currentPlayer] - 12;
 
             System.out.println(players.get(currentPlayer)
                   + "'s new location is "
-                  + places[currentPlayer]);
+                  + playerPosition[currentPlayer]);
             System.out.println("The category is " + currentCategory());
             askQuestion();
          } else {
@@ -75,13 +75,13 @@ public class Game implements IGame {
 
       } else {
 
-         places[currentPlayer] = places[currentPlayer] + roll;
-         if (places[currentPlayer] > 12)
-            places[currentPlayer] = places[currentPlayer] - 12;
+         playerPosition[currentPlayer] = playerPosition[currentPlayer] + roll;
+         if (playerPosition[currentPlayer] > 12)
+            playerPosition[currentPlayer] = playerPosition[currentPlayer] - 12;
 
          System.out.println(players.get(currentPlayer)
                + "'s new location is "
-               + places[currentPlayer]);
+               + playerPosition[currentPlayer]);
          System.out.println("The category is " + currentCategory());
          askQuestion();
       }
@@ -93,7 +93,7 @@ public class Game implements IGame {
    }
 
    private String currentCategory() {
-      return switch (places[currentPlayer] - 1) {
+      return switch (playerPosition[currentPlayer] - 1) {
          case 0, 4, 8 -> "Pop";
          case 1, 5, 9 -> "Science";
          case 2, 6, 10 -> "Sports";
@@ -117,7 +117,7 @@ public class Game implements IGame {
    }
 
    private boolean getWinner() {
-      System.out.println("Answer was corrent!!!!");
+      System.out.println("Answer was correct!!!!");
       score[currentPlayer]++;
       System.out.println(players.get(currentPlayer)
             + " now has "
