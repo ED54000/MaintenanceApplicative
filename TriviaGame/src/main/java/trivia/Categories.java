@@ -5,6 +5,7 @@ enum Categories {
     SCIENCE("Science"),
     SPORT("Sports"),
     ROCK("Rock"),
+    GEOGRAPHIE("Geographie"),
     ;
 
     private final String stringValue;

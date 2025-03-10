@@ -2,6 +2,8 @@ package trivia;
 
 import java.util.*;
 
+import static trivia.PlayGame.readYesNo;
+
 public class Game implements IGame {
 
     private final ArrayList<Player> players = new ArrayList<>();
@@ -21,10 +23,15 @@ public class Game implements IGame {
     }
 
     public boolean isPlayable() {
-        return (howManyPlayers() >= 2);
+        return (howManyPlayers() < 2);
     }
 
     public boolean addPlayer(String playerName) {
+        for (Player player : players) {
+            if (player.getName().equals(playerName)) {
+                return false;
+            }
+        }
         players.add(new Player(playerName));
         System.out.println(playerName + " was added");
         System.out.println("They are player number " + players.size());
@@ -60,7 +67,7 @@ public class Game implements IGame {
         askQuestion();
     }
 
-    private void askQuestion() {
+    void askQuestion() {
         System.out.println(questions.get(currentCategory()).removeFirst());
     }
 
@@ -96,12 +103,31 @@ public class Game implements IGame {
     }
 
     public boolean handleWrongAnswer() {
-        System.out.println("Question was incorrectly answered");
-        System.out.println(players.get(currentPlayer) + " was sent to the penalty box");
-        players.get(currentPlayer).setInPenaltyBox(true);
-        currentPlayer++;
-        handleLastPLayerTurn();
-        return true;
+        Player player = players.get(currentPlayer);
+        Categories category = currentCategory();
+        boolean answer;
+        player.addFailedAttempts();
+        boolean hadSecondChance = player.getFailedAttempts()%2==1;
+        if(hadSecondChance){
+            System.out.println("Incorrect answer! " + player + " has a second chance in the same category.");
+            askQuestion();
+            System.out.print(">> Was the answer correct? [y/n] ");
+            boolean correct = readYesNo();
+            if (correct) {
+                answer = handleCorrectAnswer();
+            } else {
+                 answer = handleWrongAnswer();
+            }
+        }else {
+            System.out.println("Question was incorrectly answered");
+            System.out.println(players.get(currentPlayer) + " was sent to the penalty box");
+            players.get(currentPlayer).setInPenaltyBox(true);
+            currentPlayer++;
+            handleLastPLayerTurn();
+            answer = true;
+        }
+        player.setFailedAttempts(0);
+        return answer;
     }
 
     public void handleLastPLayerTurn() {
