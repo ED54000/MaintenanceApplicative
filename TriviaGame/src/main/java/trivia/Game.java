@@ -2,24 +2,6 @@ package trivia;
 
 import java.util.*;
 
-enum Categories {
-    POP("Pop"),
-    SCIENCE("Science"),
-    SPORT("Sports"),
-    ROCK("Rock"),
-    ;
-
-    private final String stringValue;
-
-    Categories(final String categorie) {
-        stringValue = categorie;
-    }
-
-    public String toString() {
-        return stringValue;
-    }
-}
-
 public class Game implements IGame {
 
     private final ArrayList<Player> players = new ArrayList<>();
@@ -54,31 +36,28 @@ public class Game implements IGame {
     }
 
     public void roll(int roll) {
-        System.out.println(players.get(currentPlayer) + " is the current player");
+        Player player = players.get(currentPlayer);
+        System.out.println(player + " is the current player");
         System.out.println("They have rolled a " + roll);
 
-        if (players.get(currentPlayer).getInPenaltyBox()) {
-            if (roll % 2 != 0) {
-                isGettingOutOfPenaltyBox = true;
-                System.out.println(players.get(currentPlayer) + " is getting out of the penalty box");
-                jouer(roll);
-            } else {
-                System.out.println(players.get(currentPlayer) + " is not getting out of the penalty box");
-                isGettingOutOfPenaltyBox = false;
+        if (player.getInPenaltyBox()) {
+            isGettingOutOfPenaltyBox = roll % 2 != 0;
+            System.out.println(player + (isGettingOutOfPenaltyBox ? " is" : " is not") + " getting out of the penalty box");
+            if (isGettingOutOfPenaltyBox) {
+                jouer(roll, player);
             }
-
         } else {
-            jouer(roll);
+            jouer(roll, player);
         }
     }
 
-    private void jouer(int roll) {
-        players.get(currentPlayer).setPlayerPosition(players.get(currentPlayer).getPlayerPosition() + roll);
-        if (players.get(currentPlayer).getPlayerPosition() > 12)
-            players.get(currentPlayer).setPlayerPosition(players.get(currentPlayer).getPlayerPosition() - 12);
-        System.out.println(players.get(currentPlayer)
+    private void jouer(int roll, Player player) {
+        player.setPlayerPosition(player.getPlayerPosition() + roll);
+        if (player.getPlayerPosition() > 12)
+            player.setPlayerPosition(player.getPlayerPosition() - 12);
+        System.out.println(player
                 + "'s new location is "
-                + players.get(currentPlayer).getPlayerPosition());
+                + player.getPlayerPosition());
         System.out.println("The category is " + currentCategory());
         askQuestion();
     }
@@ -96,26 +75,27 @@ public class Game implements IGame {
 
     public boolean handleCorrectAnswer() {
         boolean res;
-        if (players.get(currentPlayer).getInPenaltyBox()) {
+        Player player = players.get(currentPlayer);
+        if (player.getInPenaltyBox()) {
             if (isGettingOutOfPenaltyBox) {
-                res = getWinner();
+                res = getWinner(player);
             } else {
                 res = true;
             }
         } else {
-            res = getWinner();
+            res = getWinner(player);
         }
         currentPlayer++;
-        handlLastPLayerTurn();
+        handleLastPLayerTurn();
         return res;
     }
 
-    private boolean getWinner() {
+    private boolean getWinner(Player player) {
         System.out.println("Answer was correct!!!!");
-        players.get(currentPlayer).setScore(players.get(currentPlayer).getScore() + 1);
-        System.out.println(players.get(currentPlayer)
+        player.incrementScore();
+        System.out.println(player
                 + " now has "
-                + players.get(currentPlayer).getScore()
+                + player.getScore()
                 + " Gold Coins.");
 
         return didPlayerWin();
@@ -125,13 +105,12 @@ public class Game implements IGame {
         System.out.println("Question was incorrectly answered");
         System.out.println(players.get(currentPlayer) + " was sent to the penalty box");
         players.get(currentPlayer).setInPenaltyBox(true);
-
         currentPlayer++;
-        handlLastPLayerTurn();
+        handleLastPLayerTurn();
         return true;
     }
 
-    public void handlLastPLayerTurn() {
+    public void handleLastPLayerTurn() {
         if (currentPlayer == players.size())
             currentPlayer = 0;
     }

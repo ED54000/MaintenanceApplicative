@@ -31,6 +31,10 @@ public class Player {
         this.score = score;
     }
 
+    public void incrementScore(){
+        this.score++;
+    }
+
     public boolean getInPenaltyBox(){
         return this.inPenaltyBox;
     }
@@ -38,7 +42,6 @@ public class Player {
     public void setInPenaltyBox(boolean inPenaltyBox){
         this.inPenaltyBox = inPenaltyBox;
     }
-
 
     @Override
     public String toString() {
