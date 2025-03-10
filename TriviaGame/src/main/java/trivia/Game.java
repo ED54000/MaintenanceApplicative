@@ -43,10 +43,8 @@ public class Game implements IGame {
         if (player.getInPenaltyBox()) {
             isGettingOutOfPenaltyBox = roll % 2 != 0;
             System.out.println(player + (isGettingOutOfPenaltyBox ? " is" : " is not") + " getting out of the penalty box");
-            if (isGettingOutOfPenaltyBox) {
-                jouer(roll, player);
-            }
-        } else {
+        }
+        if (!player.getInPenaltyBox() || isGettingOutOfPenaltyBox){
             jouer(roll, player);
         }
     }
@@ -74,14 +72,10 @@ public class Game implements IGame {
     }
 
     public boolean handleCorrectAnswer() {
-        boolean res;
         Player player = players.get(currentPlayer);
-        if (player.getInPenaltyBox()) {
-            if (isGettingOutOfPenaltyBox) {
-                res = getWinner(player);
-            } else {
-                res = true;
-            }
+        boolean res;
+        if (player.getInPenaltyBox() && !isGettingOutOfPenaltyBox) {
+            res = true;
         } else {
             res = getWinner(player);
         }
