@@ -1,27 +1,41 @@
 package trivia;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
+enum Categories {
+    POP("Pop"),
+    SCIENCE("Science"),
+    SPORT("Sports"),
+    ROCK("Rock"),
+    ;
+
+    private final String stringValue;
+
+    Categories(final String categorie){
+        stringValue = categorie;
+    }
+
+    public String toString(){
+        return stringValue;
+    }
+}
 
 // REFACTOR ME
 public class Game implements IGame {
-    private ArrayList<Player> players = new ArrayList<>();
-    private Map<String, LinkedList<String>> questions = new HashMap<>();
-    private final List<String> categories = Arrays.asList("Pop", "Science", "Sports", "Rock");
+
+    private final ArrayList<Player> players = new ArrayList<>();
+    private final Map<Categories, LinkedList<String>> questions = new EnumMap<>(Categories.class);;
 
     private int currentPlayer = 0;
     private boolean isGettingOutOfPenaltyBox;
 
     public Game() {
-        for (String categorie : categories) {
-            questions.put(categorie, new LinkedList<>());
+        for (Categories category : Categories.values()) {
+            LinkedList<String> categoryQuestions = new LinkedList<>();
             for (int i = 0; i < 50; i++) {
-                questions.get(categorie).addLast(categorie + " Question " + i);
+                categoryQuestions.add(category + " Question " + i);
             }
+            questions.put(category, categoryQuestions);
         }
     }
 
@@ -74,13 +88,12 @@ public class Game implements IGame {
         System.out.println(questions.get(currentCategory()).removeFirst());
     }
 
-    private String currentCategory() {
-        return switch (players.get(currentPlayer).getPlayerPosition() - 1) {
-            case 0, 4, 8 -> "Pop";
-            case 1, 5, 9 -> "Science";
-            case 2, 6, 10 -> "Sports";
-            default -> "Rock";
-        };
+    private Categories currentCategory() {
+        int position = players.get(currentPlayer).getPlayerPosition() - 1;
+        int nbCat = Categories.values().length;
+        int categoryIndex = position % nbCat;
+        
+        return Categories.values()[categoryIndex];
     }
 
     public boolean handleCorrectAnswer() {
