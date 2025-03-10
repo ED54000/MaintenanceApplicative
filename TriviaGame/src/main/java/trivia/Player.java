@@ -39,5 +39,9 @@ public class Player {
         this.inPenaltyBox = inPenaltyBox;
     }
 
-    
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }
