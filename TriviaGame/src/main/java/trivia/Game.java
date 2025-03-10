@@ -1,5 +1,7 @@
 package trivia;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 
 import static trivia.PlayGame.readYesNo;
@@ -15,8 +17,20 @@ public class Game implements IGame {
     public Game() {
         for (Categories category : Categories.values()) {
             LinkedList<String> categoryQuestions = new LinkedList<>();
-            for (int i = 0; i < 50; i++) {
-                categoryQuestions.add(category + " Question " + i);
+            String fileName = category.name().toLowerCase() + ".properties";
+            Properties properties = new Properties();
+
+            try (InputStream input = getClass().getClassLoader().getResourceAsStream(fileName)) {
+                if (input == null) {
+                    System.err.println("Could not load " + fileName);
+                    continue;
+                }
+                properties.load(input);
+                for (String key : properties.stringPropertyNames()) {
+                    categoryQuestions.add(properties.getProperty(key));
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
             questions.put(category, categoryQuestions);
         }
@@ -51,7 +65,7 @@ public class Game implements IGame {
             isGettingOutOfPenaltyBox = roll % 2 != 0;
             System.out.println(player + (isGettingOutOfPenaltyBox ? " is" : " is not") + " getting out of the penalty box");
         }
-        if (!player.getInPenaltyBox() || isGettingOutOfPenaltyBox){
+        if (!player.getInPenaltyBox() || isGettingOutOfPenaltyBox) {
             jouer(roll, player);
         }
     }
@@ -81,6 +95,7 @@ public class Game implements IGame {
     public boolean handleCorrectAnswer() {
         Player player = players.get(currentPlayer);
         boolean res;
+        player.addSuccessfulAttempts();
         if (player.getInPenaltyBox() && !isGettingOutOfPenaltyBox) {
             res = true;
         } else {
@@ -104,11 +119,10 @@ public class Game implements IGame {
 
     public boolean handleWrongAnswer() {
         Player player = players.get(currentPlayer);
-        Categories category = currentCategory();
         boolean answer;
         player.addFailedAttempts();
-        boolean hadSecondChance = player.getFailedAttempts()%2==1;
-        if(hadSecondChance){
+        boolean hadSecondChance = player.getFailedAttempts() % 2 == 1;
+        if (hadSecondChance) {
             System.out.println("Incorrect answer! " + player + " has a second chance in the same category.");
             askQuestion();
             System.out.print(">> Was the answer correct? [y/n] ");
@@ -116,12 +130,17 @@ public class Game implements IGame {
             if (correct) {
                 answer = handleCorrectAnswer();
             } else {
-                 answer = handleWrongAnswer();
+                answer = handleWrongAnswer();
             }
-        }else {
+        } else {
             System.out.println("Question was incorrectly answered");
-            System.out.println(players.get(currentPlayer) + " was sent to the penalty box");
-            players.get(currentPlayer).setInPenaltyBox(true);
+            if (player.getSuccessfulAttempts() >= 3) {
+                System.out.println("Streak is now over");
+                player.setSuccessfulAttempts(0);
+            } else {
+                System.out.println(players.get(currentPlayer) + " was sent to the penalty box");
+                players.get(currentPlayer).setInPenaltyBox(true);
+            }
             currentPlayer++;
             handleLastPLayerTurn();
             answer = true;
@@ -136,6 +155,6 @@ public class Game implements IGame {
     }
 
     private boolean didPlayerWin() {
-        return !(players.get(currentPlayer).getScore() == 6);
+        return !(players.get(currentPlayer).getScore() == 12);
     }
 }

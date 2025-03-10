@@ -7,6 +7,7 @@ public class Player {
     private int score = 0;
     private boolean inPenaltyBox = false;
     private int failedAttempts = 0;
+    private int successfulAttempts = 0;
 
     public Player(String name) {
         this.name = name;
@@ -33,7 +34,11 @@ public class Player {
     }
 
     public void incrementScore() {
-        this.score++;
+        if (successfulAttempts >= 3) {
+            this.score += 2;
+        } else {
+            this.score++;
+        }
     }
 
     public boolean getInPenaltyBox() {
@@ -61,4 +66,17 @@ public class Player {
         this.failedAttempts = failedAttempts;
     }
 
+    public int getSuccessfulAttempts() {
+        return successfulAttempts;
+    }
+
+    public void setSuccessfulAttempts(int successfulAttempts) {
+        this.successfulAttempts = successfulAttempts;
+    }
+
+    public void addSuccessfulAttempts() {
+        this.successfulAttempts++;
+    }
 }
+
+
