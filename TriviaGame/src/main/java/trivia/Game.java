@@ -11,20 +11,19 @@ enum Categories {
 
     private final String stringValue;
 
-    Categories(final String categorie){
+    Categories(final String categorie) {
         stringValue = categorie;
     }
 
-    public String toString(){
+    public String toString() {
         return stringValue;
     }
 }
 
-// REFACTOR ME
 public class Game implements IGame {
 
     private final ArrayList<Player> players = new ArrayList<>();
-    private final Map<Categories, LinkedList<String>> questions = new EnumMap<>(Categories.class);;
+    private final Map<Categories, LinkedList<String>> questions = new EnumMap<>(Categories.class);
 
     private int currentPlayer = 0;
     private boolean isGettingOutOfPenaltyBox;
@@ -92,23 +91,23 @@ public class Game implements IGame {
         int position = players.get(currentPlayer).getPlayerPosition() - 1;
         int nbCat = Categories.values().length;
         int categoryIndex = position % nbCat;
-        
         return Categories.values()[categoryIndex];
     }
 
     public boolean handleCorrectAnswer() {
+        boolean res;
         if (players.get(currentPlayer).getInPenaltyBox()) {
             if (isGettingOutOfPenaltyBox) {
-                return getWinner();
+                res = getWinner();
             } else {
-                currentPlayer++;
-                if (currentPlayer == players.size())
-                    currentPlayer = 0;
-                return true;
+                res = true;
             }
         } else {
-            return getWinner();
+            res = getWinner();
         }
+        currentPlayer++;
+        handlLastPLayerTurn();
+        return res;
     }
 
     private boolean getWinner() {
@@ -119,12 +118,7 @@ public class Game implements IGame {
                 + players.get(currentPlayer).getScore()
                 + " Gold Coins.");
 
-        boolean winner = didPlayerWin();
-        currentPlayer++;
-        if (currentPlayer == players.size())
-            currentPlayer = 0;
-
-        return winner;
+        return didPlayerWin();
     }
 
     public boolean handleWrongAnswer() {
@@ -133,9 +127,13 @@ public class Game implements IGame {
         players.get(currentPlayer).setInPenaltyBox(true);
 
         currentPlayer++;
+        handlLastPLayerTurn();
+        return true;
+    }
+
+    public void handlLastPLayerTurn() {
         if (currentPlayer == players.size())
             currentPlayer = 0;
-        return true;
     }
 
     private boolean didPlayerWin() {
