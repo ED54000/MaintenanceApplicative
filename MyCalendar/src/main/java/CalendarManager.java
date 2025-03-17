@@ -1,52 +1,48 @@
+import Evenements.*;
+import Evenements.EvenementPeriodique.EvenementPeriodique;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CalendarManager {
-    public List<Event> events;
+    public List<Evenements> events;
 
     public CalendarManager() {
         this.events = new ArrayList<>();
     }
 
-    public void ajouterEvent(String type, String title, String proprietaire, LocalDateTime dateDebut, int dureeMinutes,
-                             String lieu, String participants, int frequenceJours) {
-        Event e = new Event(type, title, proprietaire, dateDebut, dureeMinutes, lieu, participants, frequenceJours);
-        events.add(e);
+    public void ajouterEvent(Evenements evenements) {
+        events.add(evenements);
     }
 
-    public List<Event> eventsDansPeriode(LocalDateTime debut, LocalDateTime fin) {
-        List<Event> result = new ArrayList<>();
-        for (Event e : events) {
-            if (e.type.equals("PERIODIQUE")) {
-                LocalDateTime temp = e.dateDebut;
-                while (temp.isBefore(fin)) {
-                    if (!temp.isBefore(debut)) {
+    public List<Evenements> eventsDansPeriode(DateEvenement debut, DateEvenement fin) {
+        List<Evenements> result = new ArrayList<>();
+        for (Evenements e : events) {
+            if (e instanceof EvenementPeriodique periodic) {
+                LocalDateTime temp = periodic.getDateDebut();
+                while (temp.isBefore(fin.valeur())) {
+                    if (!temp.isBefore(debut.valeur())) {
                         result.add(e);
                         break;
                     }
-                    temp = temp.plusDays(e.frequenceJours);
+                    temp = temp.plusDays(periodic.getFrequence());
                 }
-            } else if (!e.dateDebut.isBefore(debut) && !e.dateDebut.isAfter(fin)) {
+            } else if (!e.getDateDebut().isBefore(debut.valeur()) && !e.getDateDebut().isAfter(fin.valeur())) {
                 result.add(e);
             }
         }
         return result;
     }
 
-    public boolean conflit(Event e1, Event e2) {
-        LocalDateTime fin1 = e1.dateDebut.plusMinutes(e1.dureeMinutes);
-        LocalDateTime fin2 = e2.dateDebut.plusMinutes(e2.dureeMinutes);
+    public boolean conflit(Evenements e1, Evenements e2) {
+        LocalDateTime fin1 = e1.getDateDebut().plusMinutes(e1.getDuree());
+        LocalDateTime fin2 = e2.getDateDebut().plusMinutes(e2.getDuree());
 
-        if (e1.type.equals("PERIODIQUE") || e2.type.equals("PERIODIQUE")) {
-            return false; // Simplification abusive
-        }
-
-        return e1.dateDebut.isBefore(fin2) && fin1.isAfter(e2.dateDebut);
+        return e1.getDateDebut().isBefore(fin2) && fin1.isAfter(e2.getDateDebut());
     }
 
     public void afficherEvenements() {
-        for (Event e : events) {
+        for (Evenements e : events) {
             System.out.println(e.description());
         }
     }

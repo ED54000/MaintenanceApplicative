@@ -14,5 +14,9 @@ public class EvenementPeriodique extends Evenements {
     public String description() {
         return "Événement périodique : " + titre.valeur() + " tous les " + frequence.jours() + " jours";
     }
+
+    public int getFrequence() {
+        return frequence.jours();
+    }
 }
 

@@ -1,5 +1,7 @@
 package Evenements;
 
+import java.time.LocalDateTime;
+
 public abstract class Evenements {
     protected final TitreEvenement titre;
     protected final Proprietaire proprietaire;
@@ -14,5 +16,21 @@ public abstract class Evenements {
     }
 
     public abstract String description();
+
+    public String getTitre() {
+        return titre.valeur();
+    }
+
+    public String getProprietaire() {
+        return proprietaire.valeur();
+    }
+
+    public LocalDateTime getDateDebut() {
+        return dateDebut.valeur();
+    }
+
+    public int getDuree() {
+        return duree.minutes();
+    }
 }
 
