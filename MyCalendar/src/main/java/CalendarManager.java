@@ -42,10 +42,7 @@ public class CalendarManager {
             return false; // Simplification abusive
         }
 
-        if (e1.dateDebut.isBefore(fin2) && fin1.isAfter(e2.dateDebut)) {
-            return true;
-        }
-        return false;
+        return e1.dateDebut.isBefore(fin2) && fin1.isAfter(e2.dateDebut);
     }
 
     public void afficherEvenements() {

@@ -7,8 +7,8 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         CalendarManager calendar = new CalendarManager();
-        Scanner scanner = new Scanner(System.in);
-        String utilisateur = null;
+        try (Scanner scanner = new Scanner(System.in)) {
+            String utilisateur = null;
         boolean continuer = true;
 
         String[] utilisateurs = new String[99];
@@ -203,7 +203,6 @@ public class Main {
 
                         StringBuilder participants = new StringBuilder(utilisateur);
 
-                        boolean encore = true;
                         System.out.println("Ajouter un participant ? (oui / non)");
                         while (scanner.nextLine().equals("oui")) {
                             System.out.print("Participants : " + participants);
@@ -248,10 +247,11 @@ public class Main {
                         utilisateur = null;
                 }
             }
+            }
         }
     }
-
-    private static void afficherListe(List<Event> evenements) {
+    
+        private static void afficherListe(List<Event> evenements) {
         if (evenements.isEmpty()) {
             System.out.println("Aucun événement trouvé pour cette période.");
         } else {
