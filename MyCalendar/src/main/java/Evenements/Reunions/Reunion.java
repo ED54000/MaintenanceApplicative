@@ -14,6 +14,6 @@ public class Reunion extends Evenements {
 
     @Override
     public String description() {
-        return "Réunion : " + titre.valeur() + " à " + lieu.valeur() + " avec " + String.join(", ", participants.liste());
+        return "Réunion : " + titre.valeur() + " à " + lieu.valeur() + " avec " + String.join( ", ", (CharSequence) participants.liste());
     }
 }

@@ -1,8 +1,12 @@
-import Evenements.*;
+import Evenements.DateEvenement;
 import Evenements.EvenementPeriodique.EvenementPeriodique;
+import Evenements.Evenements;
+
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class CalendarManager {
     public List<Evenements> events;
@@ -18,19 +22,19 @@ public class CalendarManager {
     public List<Evenements> eventsDansPeriode(DateEvenement debut, DateEvenement fin) {
         List<Evenements> result = new ArrayList<>();
         for (Evenements e : events) {
-            if (e instanceof EvenementPeriodique periodic) {
-                LocalDateTime temp = periodic.getDateDebut();
-                while (temp.isBefore(fin.valeur())) {
-                    if (!temp.isBefore(debut.valeur())) {
-                        result.add(e);
-                        break;
-                    }
-                    temp = temp.plusDays(periodic.getFrequence());
-                }
-            } else if (!e.getDateDebut().isBefore(debut.valeur()) && !e.getDateDebut().isAfter(fin.valeur())) {
-                result.add(e);
+            for (LocalDateTime date :
+                    e instanceof EvenementPeriodique periodic
+                            ? Stream.iterate(periodic.getDateDebut(), d -> d.plusDays(periodic.getFrequence()))
+                            .limit((int) (ChronoUnit.DAYS.between(periodic.getDateDebut(), fin.valeur()) / periodic.getFrequence()) + 1)
+                            .toList()
+                            : List.of(e.getDateDebut())) {
+
+                result.addAll(Stream.of(e)
+                        .filter(event -> !date.isBefore(debut.valeur()) && !date.isAfter(fin.valeur()))
+                        .toList());
             }
         }
+
         return result;
     }
 
