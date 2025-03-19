@@ -1,5 +1,5 @@
 
-import Evenements.Formation;
+import Evenements.Formations.Formation;
 import Evenements.Proprietaire;
 import Evenements.TitreEvenement;
 import Evenements.DateEvenement;
@@ -21,10 +21,10 @@ class FormationTest {
 
         Formation formation = new Formation(titre, proprietaire, date, duree, formateur);
 
-        assertEquals("Java TDD", formation.titre().valeur());
-        assertEquals("Alice", formation.proprietaire().valeur());
-        assertEquals(LocalDateTime.of(2025, 3, 20, 14, 0), formation.dateDebut().valeur());
-        assertEquals(120, formation.duree().valeur());
+        assertEquals("Java TDD", formation.getTitre());
+        assertEquals("Alice", formation.getProprietaire());
+        assertEquals(LocalDateTime.of(2025, 3, 20, 14, 0), formation.getDateDebut());
+        assertEquals(120, formation.getDuree());
         assertEquals("Bob", formation.getFormateur());
     }
 }
