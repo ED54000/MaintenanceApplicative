@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class CalendarManager {
@@ -49,5 +50,12 @@ public class CalendarManager {
         for (Evenements e : events) {
             System.out.println(e.description());
         }
+    }
+
+    public List<Evenements> afficherEvenementsDansPeriode(DateEvenement debut, DateEvenement fin) {
+        return events.stream()
+                .filter(e-> !e.getDateDebut().isBefore(debut.valeur()) &&
+                        !e.getDateDebut().isAfter(fin.valeur()))
+                .collect(Collectors.toList());
     }
 }

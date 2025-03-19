@@ -40,7 +40,7 @@ class CalendarManagerTest {
         calendar.ajouterEvent(reunion);
         calendar.ajouterEvent(rdv);
 
-        List<Evenements> events = calendar.obtenirEvenementsDansPeriode(new DateEvenement(debut), new DateEvenement(fin));
+        List<Evenements> events = calendar.afficherEvenementsDansPeriode(new DateEvenement(debut), new DateEvenement(fin));
 
         assertEquals(1, events.size());
         assertEquals("Réunion Projet", events.getFirst().getTitre());
