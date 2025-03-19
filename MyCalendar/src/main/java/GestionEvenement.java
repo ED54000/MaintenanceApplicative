@@ -1,6 +1,7 @@
 import Evenements.*;
 import Evenements.EvenementPeriodique.EvenementPeriodique;
 import Evenements.EvenementPeriodique.FrequenceEvenement;
+import Evenements.Formations.Formation;
 import Evenements.Rdv.RdvPersonnel;
 import Evenements.Reunions.LieuEvenement;
 import Evenements.Reunions.Participants;
@@ -31,7 +32,8 @@ class GestionEvenement {
         System.out.println("2 - Ajouter un rendez-vous perso");
         System.out.println("3 - Ajouter une réunion");
         System.out.println("4 - Ajouter un évènement périodique");
-        System.out.println("5 - Se déconnecter");
+        System.out.println("5 - Ajouter une formation");
+        System.out.println("6 - Se déconnecter");
         System.out.print("Votre choix : ");
 
         actions.getOrDefault(scanner.nextLine(), this::choixInvalide).run();
@@ -43,7 +45,8 @@ class GestionEvenement {
                 "2", () -> ajouterRdvPersonnel(calendar, scanner, utilisateur),
                 "3", () -> ajouterReunion(calendar, scanner, utilisateur),
                 "4", () -> ajouterEvenementPeriodique(calendar, scanner, utilisateur),
-                "5", this::seDeconnecter
+                "5", () -> ajouterFormation(calendar,scanner,utilisateur),
+                "6", this::seDeconnecter
         );
     }
 
@@ -141,6 +144,25 @@ class GestionEvenement {
         calendar.ajouterEvent(event);
         System.out.println("Événement périodique ajouté.");
     }
+
+    private void ajouterFormation() {
+        System.out.print("Titre de la formation : ");
+        String titre = scanner.nextLine();
+        System.out.print("Formateur : ");
+        String formateur = scanner.nextLine();
+        LocalDateTime date = demanderDate(scanner);
+        System.out.print("Durée (en minutes) : ");
+        int duree = Integer.parseInt(scanner.nextLine());
+        Formation formation = new Formation(
+                new TitreEvenement(titre),
+                new Proprietaire(utilisateur.getNom()),
+                new DateEvenement(date),
+                new DureeEvenement(duree),
+                formateur);
+        calendar.ajouterEvent(formation);
+        System.out.println("Formation ajoutée !");
+    }
+
 
     private static LocalDateTime demanderDate(Scanner scanner) {
         System.out.print("Année (AAAA) : ");
