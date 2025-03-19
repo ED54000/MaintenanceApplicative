@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class CalendarManagerTest {
 
@@ -44,5 +45,52 @@ class CalendarManagerTest {
 
         assertEquals(1, events.size());
         assertEquals("Réunion Projet", events.getFirst().getTitre());
+    }
+
+    @Test
+    void shouldDetectConflictingEvents() {
+        TitreEvenement titre1 = new TitreEvenement("Réunion Projet");
+        Proprietaire proprietaire1 = new Proprietaire("Alice");
+        DateEvenement date1 = new DateEvenement(LocalDateTime.of(2025, 3, 10, 14, 0));
+        DureeEvenement duree1 = new DureeEvenement(60);
+        Reunion reunion = new Reunion(titre1, proprietaire1, date1, duree1, new LieuEvenement("Salle A"), new Participants(List.of("Alice", "Bob")));
+
+        TitreEvenement titre2 = new TitreEvenement("Rendez-vous Médical");
+        Proprietaire proprietaire2 = new Proprietaire("Bob");
+        DateEvenement date2 = new DateEvenement(LocalDateTime.of(2025, 3, 10, 14, 30)); // Se chevauche avec la réunion
+        DureeEvenement duree2 = new DureeEvenement(30);
+        RdvPersonnel rdv = new RdvPersonnel(titre2, proprietaire2, date2, duree2);
+
+        calendar.ajouterEvent(reunion);
+        calendar.ajouterEvent(rdv);
+
+        List<Evenements> conflits = calendar.detecterConflits();
+
+        assertEquals(2, conflits.size());
+        assertTrue(conflits.contains(reunion));
+        assertTrue(conflits.contains(rdv));
+    }
+
+
+    @Test
+    void shouldNotDetectConflictsWhenEventsAreSeparated() {
+        TitreEvenement titre1 = new TitreEvenement("Réunion Matin");
+        Proprietaire proprietaire1 = new Proprietaire("Alice");
+        DateEvenement date1 = new DateEvenement(LocalDateTime.of(2025, 3, 10, 9, 0));
+        DureeEvenement duree1 = new DureeEvenement(60);
+        Reunion reunion = new Reunion(titre1, proprietaire1, date1, duree1, new LieuEvenement("Salle A"), new Participants(List.of("Alice", "Bob")));
+
+        TitreEvenement titre2 = new TitreEvenement("Rendez-vous Après-midi");
+        Proprietaire proprietaire2 = new Proprietaire("Bob");
+        DateEvenement date2 = new DateEvenement(LocalDateTime.of(2025, 3, 10, 11, 0)); // Aucun chevauchement
+        DureeEvenement duree2 = new DureeEvenement(30);
+        RdvPersonnel rdv = new RdvPersonnel(titre2, proprietaire2, date2, duree2);
+
+        calendar.ajouterEvent(reunion);
+        calendar.ajouterEvent(rdv);
+
+        List<Evenements> conflits = calendar.detecterConflits();
+
+        assertTrue(conflits.isEmpty());
     }
 }
