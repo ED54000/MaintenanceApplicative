@@ -145,7 +145,7 @@ class GestionEvenement {
         System.out.println("Événement périodique ajouté.");
     }
 
-    private void ajouterFormation() {
+    private void ajouterFormation(CalendarManager calendar, Scanner scanner, Utilisateur utilisateur) {
         System.out.print("Titre de la formation : ");
         String titre = scanner.nextLine();
         System.out.print("Formateur : ");
