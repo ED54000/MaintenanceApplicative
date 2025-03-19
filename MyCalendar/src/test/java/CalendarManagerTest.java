@@ -53,7 +53,9 @@ class CalendarManagerTest {
         Proprietaire proprietaire1 = new Proprietaire("Alice");
         DateEvenement date1 = new DateEvenement(LocalDateTime.of(2025, 3, 10, 14, 0));
         DureeEvenement duree1 = new DureeEvenement(60);
-        Reunion reunion = new Reunion(titre1, proprietaire1, date1, duree1, new LieuEvenement("Salle A"), new Participants(List.of("Alice", "Bob")));
+        Utilisateur alice = new Utilisateur("Alice");
+        Utilisateur bob = new Utilisateur("Bob");
+        Reunion reunion = new Reunion(titre1, proprietaire1, date1, duree1, new LieuEvenement("Salle A"), new  Participants(List.of(alice,bob)));
 
         TitreEvenement titre2 = new TitreEvenement("Rendez-vous Médical");
         Proprietaire proprietaire2 = new Proprietaire("Bob");
@@ -78,7 +80,9 @@ class CalendarManagerTest {
         Proprietaire proprietaire1 = new Proprietaire("Alice");
         DateEvenement date1 = new DateEvenement(LocalDateTime.of(2025, 3, 10, 9, 0));
         DureeEvenement duree1 = new DureeEvenement(60);
-        Reunion reunion = new Reunion(titre1, proprietaire1, date1, duree1, new LieuEvenement("Salle A"), new Participants(List.of("Alice", "Bob")));
+        Utilisateur alice = new Utilisateur("Alice");
+        Utilisateur bob = new Utilisateur("Bob");
+        Reunion reunion = new Reunion(titre1, proprietaire1, date1, duree1, new LieuEvenement("Salle A"), new Participants(List.of(alice,bob)));
 
         TitreEvenement titre2 = new TitreEvenement("Rendez-vous Après-midi");
         Proprietaire proprietaire2 = new Proprietaire("Bob");

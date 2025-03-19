@@ -58,4 +58,12 @@ public class CalendarManager {
                         !e.getDateDebut().isAfter(fin.valeur()))
                 .collect(Collectors.toList());
     }
+
+    public List<Evenements> detecterConflits() {
+        return events.stream()
+                .filter(event1 -> events.stream()
+                        .anyMatch(event2 -> !event1.equals(event2) && conflit(event1, event2)))
+                .collect(Collectors.toList());
+    }
+
 }
