@@ -9,7 +9,7 @@ public class RdvPersonnel extends Evenements {
 
     @Override
     protected String typeEvenement() {
-        return "";
+        return "Rendez-vous Personnel";
     }
 
     @Override
