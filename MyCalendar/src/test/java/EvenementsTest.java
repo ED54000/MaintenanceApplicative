@@ -29,7 +29,7 @@ class EvenementsTest {
                 new Participants(List.of(alice,bob))
         );
 
-        String expectedDescription = "Réunion : Réunion Projet organisée par Alice à Salle A avec Alice, Bob.";
+        String expectedDescription = "Réunion : Réunion Projet organisé par Alice à Salle A avec Alice, Bob.";
         assertEquals(expectedDescription, reunion.description());
     }
 
