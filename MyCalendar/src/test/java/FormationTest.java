@@ -1,9 +1,6 @@
 
+import Evenements.*;
 import Evenements.Formations.Formation;
-import Evenements.Proprietaire;
-import Evenements.TitreEvenement;
-import Evenements.DateEvenement;
-import Evenements.DureeEvenement;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -17,9 +14,10 @@ class FormationTest {
         Proprietaire proprietaire = new Proprietaire("Alice");
         DateEvenement date = new DateEvenement(LocalDateTime.of(2025, 3, 20, 14, 0));
         DureeEvenement duree = new DureeEvenement(120);
+        EventId eventId = EventId.generer();
         String formateur = "Bob";
 
-        Formation formation = new Formation(titre, proprietaire, date, duree, formateur);
+        Formation formation = new Formation(titre,eventId, proprietaire, date, duree, formateur);
 
         assertEquals("Java TDD", formation.getTitre());
         assertEquals("Alice", formation.getProprietaire());
