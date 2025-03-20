@@ -1,6 +1,9 @@
 package Evenements.Reunions;
 
 import Evenements.*;
+import Utilisateurs.Utilisateur;
+
+import java.util.stream.Collectors;
 
 public class Reunion extends Evenements {
     private final LieuEvenement lieu;
@@ -14,6 +17,8 @@ public class Reunion extends Evenements {
 
     @Override
     public String description() {
-        return "Réunion : " + titre.valeur() + " à " + lieu.valeur() + " avec " + String.join( ", ", (CharSequence) participants.liste());
+        return "Réunion : " + titre.valeur() + " organisée par " + proprietaire.valeur() + " à " + lieu.valeur() +
+                " avec " + participants.liste().stream().map(Utilisateur::toString).collect(Collectors.joining(", ")) + ".";
     }
+
 }
