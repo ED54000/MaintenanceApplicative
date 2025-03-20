@@ -42,7 +42,7 @@ class EvenementsTest {
                 new DureeEvenement(30)
         );
 
-        String expectedDescription = "Rendez-vous personnel : Rendez-vous Médical de Bob.";
+        String expectedDescription = "Rendez-vous Personnel : Rendez-vous Médical organisé par Bob.";
         assertEquals(expectedDescription, rdv.description());
     }
 
