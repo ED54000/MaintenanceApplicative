@@ -16,8 +16,13 @@ public class Formation extends Evenements {
     }
 
     @Override
+    protected String typeEvenement() {
+        return "Formation";
+    }
+
+    @Override
     public String description() {
-        return "Formation : " + titre.valeur() + " animée par " + formateur;
+        return super.description() + " animée par " + formateur;
     }
 
 

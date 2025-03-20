@@ -8,8 +8,13 @@ public class RdvPersonnel extends Evenements {
     }
 
     @Override
+    protected String typeEvenement() {
+        return "";
+    }
+
+    @Override
     public String description() {
-        return "Rendez-vous personnel : " + titre.valeur() + " de " + proprietaire.valeur() + ".";
+        return super.description() + ".";
     }
 
 }

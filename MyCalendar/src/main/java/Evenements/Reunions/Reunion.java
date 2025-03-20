@@ -16,8 +16,13 @@ public class Reunion extends Evenements {
     }
 
     @Override
+    protected String typeEvenement() {
+        return "Réunion";
+    }
+
+    @Override
     public String description() {
-        return "Réunion : " + titre.valeur() + " organisée par " + proprietaire.valeur() + " à " + lieu.valeur() +
+        return super.description() + " à " + lieu.valeur() +
                 " avec " + participants.liste().stream().map(Utilisateur::toString).collect(Collectors.joining(", ")) + ".";
     }
 

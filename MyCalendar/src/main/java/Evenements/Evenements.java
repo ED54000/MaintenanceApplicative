@@ -15,7 +15,12 @@ public abstract class Evenements {
         this.duree = duree;
     }
 
-    public abstract String description();
+
+    protected abstract String typeEvenement();
+
+    public String description() {
+        return typeEvenement() + " : " + titre.valeur() + " organisé par " + proprietaire.valeur() ;
+    }
 
     public String getTitre() {
         return titre.valeur();

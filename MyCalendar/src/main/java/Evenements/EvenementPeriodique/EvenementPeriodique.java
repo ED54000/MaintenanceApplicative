@@ -11,9 +11,13 @@ public class EvenementPeriodique extends Evenements {
     }
 
     @Override
+    protected String typeEvenement() {
+        return "Événement périodique";
+    }
+
+    @Override
     public String description() {
-        return "Événement périodique : " + titre.valeur() + " organisé par " + proprietaire.valeur() +
-                " tous les " + frequence.jours() + " jours.";
+        return super.description() +" tous les " + frequence.jours() + " jours.";
     }
 
 
