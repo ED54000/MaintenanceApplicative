@@ -3,8 +3,8 @@ package Evenements.Rdv;
 import Evenements.*;
 
 public class RdvPersonnel extends Evenements {
-    public RdvPersonnel(TitreEvenement titre, Proprietaire proprietaire, DateEvenement dateDebut, DureeEvenement duree) {
-        super(titre, proprietaire, dateDebut, duree);
+    public RdvPersonnel(EventId eventId, TitreEvenement titre, Proprietaire proprietaire, DateEvenement dateDebut, DureeEvenement duree) {
+        super(titre, eventId, proprietaire, dateDebut, duree);
     }
 
     @Override

@@ -82,7 +82,6 @@ class GestionEvenement {
     }
 
     private void ajouterRdvPersonnel(CalendarManager calendar, Scanner scanner, Utilisateur utilisateur) {
-        // Ajout simplifié d'un RDV personnel
         System.out.print("Titre de l'événement : ");
         String titre = scanner.nextLine();
         LocalDateTime date = demanderDate(scanner);
@@ -90,6 +89,7 @@ class GestionEvenement {
         int duree = Integer.parseInt(scanner.nextLine());
 
         RdvPersonnel rdv = new RdvPersonnel(
+                EventId.generer(),
                 new TitreEvenement(titre),
                 new Proprietaire(utilisateur.getNom()),
                 new DateEvenement(date),
@@ -97,7 +97,6 @@ class GestionEvenement {
         );
         calendar.ajouterEvent(rdv);
         System.out.println("Événement ajouté.");
-
     }
 
     private void ajouterReunion(CalendarManager calendar, Scanner scanner, Utilisateur utilisateur) {
@@ -113,6 +112,7 @@ class GestionEvenement {
 
         Reunion reunion = new Reunion(
                 new TitreEvenement(titre),
+                EventId.generer(),
                 new Proprietaire(utilisateur.getNom()),
                 new DateEvenement(date),
                 new DureeEvenement(duree),
@@ -135,6 +135,7 @@ class GestionEvenement {
 
         EvenementPeriodique event = new EvenementPeriodique(
                 new TitreEvenement(titre),
+                EventId.generer(),
                 new Proprietaire(utilisateur.getNom()),
                 new DateEvenement(date),
                 new DureeEvenement(duree),
@@ -155,6 +156,7 @@ class GestionEvenement {
         int duree = Integer.parseInt(scanner.nextLine());
         Formation formation = new Formation(
                 new TitreEvenement(titre),
+                EventId.generer(),
                 new Proprietaire(utilisateur.getNom()),
                 new DateEvenement(date),
                 new DureeEvenement(duree),

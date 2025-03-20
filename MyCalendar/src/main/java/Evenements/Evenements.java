@@ -7,9 +7,11 @@ public abstract class Evenements {
     protected final Proprietaire proprietaire;
     protected final DateEvenement dateDebut;
     protected final DureeEvenement duree;
+    protected final EventId id;
 
-    public Evenements(TitreEvenement titre, Proprietaire proprietaire, DateEvenement dateDebut, DureeEvenement duree) {
+    public Evenements(TitreEvenement titre, EventId id, Proprietaire proprietaire, DateEvenement dateDebut, DureeEvenement duree) {
         this.titre = titre;
+        this.id = id;
         this.proprietaire = proprietaire;
         this.dateDebut = dateDebut;
         this.duree = duree;
@@ -36,6 +38,10 @@ public abstract class Evenements {
 
     public int getDuree() {
         return duree.minutes();
+    }
+
+    public EventId getId() {
+        return id;
     }
 }
 

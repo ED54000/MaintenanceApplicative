@@ -1,6 +1,6 @@
 import Evenements.DateEvenement;
 import Evenements.EvenementPeriodique.EvenementPeriodique;
-import Evenements.Evenements;
+import Evenements.*;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -66,4 +66,11 @@ public class CalendarManager {
                 .collect(Collectors.toList());
     }
 
+    public void supprimerEvent(EventId id) {
+        events.removeIf(event -> event.getId().equals(id));
+    }
+
+    public boolean contientEvent(EventId id) {
+        return events.stream().anyMatch(event -> event.getId().equals(id));
+    }
 }
