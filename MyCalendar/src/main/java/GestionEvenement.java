@@ -33,7 +33,8 @@ class GestionEvenement {
         System.out.println("3 - Ajouter une réunion");
         System.out.println("4 - Ajouter un évènement périodique");
         System.out.println("5 - Ajouter une formation");
-        System.out.println("6 - Se déconnecter");
+        System.out.println("6 - Supprimer un évènement");
+        System.out.println("7 - Se déconnecter");
         System.out.print("Votre choix : ");
 
         actions.getOrDefault(scanner.nextLine(), this::choixInvalide).run();
@@ -46,8 +47,16 @@ class GestionEvenement {
                 "3", () -> ajouterReunion(calendar, scanner, utilisateur),
                 "4", () -> ajouterEvenementPeriodique(calendar, scanner, utilisateur),
                 "5", () -> ajouterFormation(calendar,scanner,utilisateur),
-                "6", this::seDeconnecter
+                "6", () -> supprimerEvenement(calendar,scanner),
+                "7", this::seDeconnecter
         );
+    }
+
+    private void supprimerEvenement(CalendarManager calendar, Scanner scanner) {
+        calendar.afficherEvenementsId();
+        System.out.println("Lequel voulez vous supprimer");
+        EventId id = new EventId(scanner.nextLine());
+        calendar.supprimerEvent(id);
     }
 
     private void afficherEvenement() {

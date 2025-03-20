@@ -1,76 +1,58 @@
 package Utilisateurs;
 
-import java.util.Scanner;
+import java.util.*;
+
+import java.util.function.Function;
 
 public class AuthentificationService {
-    
+    private final Scanner scanner;
+    private final Utilisateurs utilisateurs;
 
-    public static Utilisateur demanderConnexion(Scanner scanner,Utilisateur utilisateur) {
-        Utilisateurs utilisateurs = new Utilisateurs();
-      /*
-        System.out.println("  _____         _                   _                __  __");
-        System.out.println(" / ____|       | |                 | |              |  \\/  |");
-        System.out.println(
-                "| |       __ _ | |  ___  _ __    __| |  __ _  _ __  | \\  / |  __ _  _ __    __ _   __ _   ___  _ __");
-        System.out.println(
-                "| |      / _` || | / _ \\| '_ \\  / _` | / _` || '__| | |\\/| | / _` || '_ \\  / _` | / _` | / _ \\| '__|");
-        System.out.println(
-                "| |____ | (_| || ||  __/| | | || (_| || (_| || |    | |  | || (_| || | | || (_| || (_| ||  __/| |");
-        System.out.println(
-                " \\_____| \\__,_||_| \\___||_| |_| \\__,_| \\__,_||_|    |_|  |_| \\__,_||_| |_| \\__,_| \\__, | \\___||_|");
-        System.out.println(
-                "                                                                                   __/ |");
-        System.out.println(
-                "                                                                                  |___/");*/
+    public AuthentificationService(Scanner scanner) {
+        this.scanner = scanner;
+        this.utilisateurs = new Utilisateurs();
+    }
 
+    public Utilisateur demanderConnexion() {
         System.out.println("1 - Se connecter");
         System.out.println("2 - Créer un compte");
-        System.out.println("Choix : ");
-      switch (scanner.nextLine()) {
-          /*  case "1":
-                System.out.print("Nom d'utilisateur: ");
-                utilisateur = scanner.nextLine();
+        System.out.print("Choix : ");
 
-                if (utilisateur.equals("Roger")) {
-                    String motDePasse = scanner.nextLine();
-                    if (!motDePasse.equals("Chat")) {
-                        utilisateur = null;
-                    }
-                } else {
-                    if (utilisateur.equals("Pierre")) {
-                        String motDePasse = scanner.nextLine();
-                        if (!motDePasse.equals("KiRouhl")) {
-                            utilisateur = null;
-                        }
-                    } else {
-                        System.out.print("Mot de passe: ");
-                        String motDePasse = scanner.nextLine();
+        Map<String, Function<Scanner, Utilisateur>> actions = Map.of(
+                "1", this::connecterUtilisateur,
+                "2", this::inscrireUtilisateur
+        );
 
-                        for (int i = 0; i < nbUtilisateurs; i = i + 1) {
-                            assert utilisateurs[i] != null;
-                            if (utilisateurs[i].equals(utilisateur) && motsDePasses[i].equals(motDePasse)) {
-                                utilisateur = utilisateurs[i];
-                            }
-                        }
-                    }
-                }
-                break;
-*/
-            case "2":
-                System.out.print("Nom d'utilisateur: ");
-                utilisateur.creerNom(scanner);
-                System.out.print("Mot de passe: ");
-                utilisateur.creerMotDePasse(scanner);
-                System.out.print("Répéter mot de passe: ");
-                if (scanner.nextLine().equals(utilisateur.getMotDePasse())) {
-                    utilisateurs.addUtilisateur(utilisateur);
-
-                } else {
-                    System.out.println("Les mots de passes ne correspondent pas...");
-                    utilisateur = null;
-                }
-                break;
-        }
-        return utilisateur;
+        return actions.getOrDefault(scanner.nextLine(), s -> {
+            System.out.println("Choix invalide.");
+            return null;
+        }).apply(scanner);
     }
+
+    private Utilisateur connecterUtilisateur(Scanner scanner) {
+        System.out.print("Nom d'utilisateur : ");
+        String nom = scanner.nextLine();
+        System.out.print("Mot de passe : ");
+        String motDePasse = scanner.nextLine();
+
+        return utilisateurs.authentifier(nom, motDePasse);
+    }
+
+    private Utilisateur inscrireUtilisateur(Scanner scanner) {
+        System.out.print("Nom d'utilisateur : ");
+        String nom = scanner.nextLine();
+        System.out.print("Mot de passe : ");
+        String motDePasse = scanner.nextLine();
+        System.out.print("Répéter mot de passe : ");
+
+        return Optional.of(scanner.nextLine())
+                .filter(confirm -> confirm.equals(motDePasse))
+                .map(confirm -> utilisateurs.ajouterUtilisateur(nom, motDePasse))
+                .orElseGet(() -> {
+                    System.out.println("Les mots de passe ne correspondent pas...");
+                    return null;
+                });
+    }
+
+
 }

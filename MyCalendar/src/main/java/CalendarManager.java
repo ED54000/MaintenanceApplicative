@@ -52,6 +52,12 @@ public class CalendarManager {
         }
     }
 
+    public void afficherEvenementsId() {
+        for (Evenements e : events) {
+            System.out.println(e.getId()+ " : " +e.description());
+        }
+    }
+
     public List<Evenements> afficherEvenementsDansPeriode(DateEvenement debut, DateEvenement fin) {
         return events.stream()
                 .filter(e-> !e.getDateDebut().isBefore(debut.valeur()) &&

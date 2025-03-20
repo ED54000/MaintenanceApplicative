@@ -7,12 +7,14 @@ public class Main {
     public static void main(String[] args) {
         CalendarManager calendar = new CalendarManager();
         try (Scanner scanner = new Scanner(System.in)) {
-            Utilisateur utilisateur = new Utilisateur();
+            AuthentificationService authentificationService = new AuthentificationService(scanner);
+            Utilisateur utilisateur;
 
-            while (utilisateur.getNom() == null) {
-                utilisateur = AuthentificationService.demanderConnexion(scanner, utilisateur);
-            }
-            while (utilisateur.getNom() != null) {
+            do {
+                utilisateur = authentificationService.demanderConnexion();
+            } while (utilisateur == null);
+
+            while (utilisateur.getNom() != null && !utilisateur.getNom().isEmpty()) {
                 new GestionEvenement(calendar, scanner, utilisateur).afficherMenu();
             }
         }

@@ -16,13 +16,11 @@ public class Utilisateur {
         this.nom = nom;
     }
 
-    public void creerNom(Scanner scanner) {
-        nom = scanner.nextLine();
+    public Utilisateur(String nom, String motDePasse) {
+        this.nom = nom;
+        this.motDePasse = motDePasse;
     }
 
-    public void creerMotDePasse(Scanner scanner) {
-        motDePasse = scanner.nextLine();
-    }
 
     public String getMotDePasse() {
         return motDePasse;
@@ -35,5 +33,9 @@ public class Utilisateur {
     @Override
     public String toString() {
         return nom;
+    }
+
+    public void setNom(String s) {
+        nom = s;
     }
 }
