@@ -39,6 +39,6 @@ public class JsonStorageTest {
 
         // Vérification que l'événement chargé est identique à celui sauvegardé
         assertEquals(1, evenementsCharges.size());
-        assertEquals(evenement.getTitre(), evenementsCharges.getFirst().getTitre);
+        assertEquals(evenement.getTitre(), evenementsCharges.getFirst().getTitre());
     }
 }
