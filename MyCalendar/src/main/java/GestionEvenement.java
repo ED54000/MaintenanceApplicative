@@ -1,12 +1,12 @@
-import Evenements.*;
-import Evenements.EvenementPeriodique.EvenementPeriodique;
-import Evenements.EvenementPeriodique.FrequenceEvenement;
+import Evenements.EvenementPeriodique.*;
 import Evenements.Formations.Formation;
 import Evenements.Rdv.RdvPersonnel;
+import Evenements.*;
 import Evenements.Reunions.LieuEvenement;
 import Evenements.Reunions.Participants;
 import Evenements.Reunions.Reunion;
 import Utilisateurs.*;
+import Evenements.Sauvegarde.JsonStorage;
 
 import java.time.LocalDateTime;
 import java.time.temporal.WeekFields;
@@ -34,7 +34,9 @@ class GestionEvenement {
         System.out.println("4 - Ajouter un évènement périodique");
         System.out.println("5 - Ajouter une formation");
         System.out.println("6 - Supprimer un évènement");
-        System.out.println("7 - Se déconnecter");
+        System.out.println("7 - Sauvegarder vos évènements");
+        System.out.println("8 - Charger vos évènements");
+        System.out.println("9 - Se déconnecter");
         System.out.print("Votre choix : ");
 
         actions.getOrDefault(scanner.nextLine(), this::choixInvalide).run();
@@ -48,7 +50,9 @@ class GestionEvenement {
                 "4", () -> ajouterEvenementPeriodique(calendar, scanner, utilisateur),
                 "5", () -> ajouterFormation(calendar,scanner,utilisateur),
                 "6", () -> supprimerEvenement(calendar,scanner),
-                "7", this::seDeconnecter
+                "7", () -> JsonStorage.sauvegarderEvenements(calendar.events,"evenements.json"),
+                "8", () -> JsonStorage.chargerEvenements("evenements.json"),
+                "9", this::seDeconnecter
         );
     }
 
