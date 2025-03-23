@@ -26,4 +26,11 @@ public class Reunion extends Evenements {
                 " avec " + participants.liste().stream().map(Utilisateur::toString).collect(Collectors.joining(", ")) + ".";
     }
 
+    public String getLieu() {
+        return lieu.valeur();
+    }
+
+    public String getParticipants() {
+        return participants.liste().stream().map(Utilisateur::toString).collect(Collectors.joining(", "));
+    }
 }

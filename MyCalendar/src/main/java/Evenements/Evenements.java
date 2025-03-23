@@ -21,7 +21,7 @@ public abstract class Evenements {
     protected abstract String typeEvenement();
 
     public String description() {
-        return typeEvenement() + " : " + titre.valeur() + " organisé par " + proprietaire.valeur() ;
+        return typeEvenement() + " : " + titre.valeur() + " organisé par " + proprietaire.valeur();
     }
 
     public String getTitre() {
@@ -42,6 +42,11 @@ public abstract class Evenements {
 
     public EventId getId() {
         return id;
+    }
+
+    public String convertirDate() {
+        assert this.dateDebut != null;
+        return this.dateDebut.valeur().toString();
     }
 }
 
