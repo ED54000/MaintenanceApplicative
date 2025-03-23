@@ -1,0 +1,52 @@
+[
+  {
+    "date": "2025-03-24T00:00",
+    "proprietaire": "Pierre",
+    "titre": "Réu",
+    "duree": 3600,
+    "description": "Réunion : Réu organisé par Pierre à Ici et là-bas avec Jean, Marc, Maurice, Jeanne, Alice, Bob, René, Jean 2, Moi.",
+    "id": "fbb62c2a-3b63-4a7b-b834-0a4f5393993d",
+    "type": "Reunion",
+    "lieu": "Ici et là-bas",
+    "participants": [
+      {"nom": "Jean"},
+      {"nom": "Marc"},
+      {"nom": "Maurice"},
+      {"nom": "Jeanne"},
+      {"nom": "Alice"},
+      {"nom": "Bob"},
+      {"nom": "René"},
+      {"nom": "Jean 2"},
+      {"nom": "Moi"}
+    ]
+  },
+  {
+    "date": "2025-12-06T00:00",
+    "proprietaire": "Pierre",
+    "titre": "Anniv Didier",
+    "duree": 1,
+    "description": "Événement périodique : Anniv Didier organisé par Pierre tous les 365 jours.",
+    "id": "a64e4efe-2d0e-4b6d-ba5c-c236a0d19499",
+    "frequence": "365",
+    "type": "EvenementPeriodique"
+  },
+  {
+    "date": "2025-05-16T04:59",
+    "formateur": "Patrice",
+    "proprietaire": "Pierre",
+    "titre": "Comment souhaiter un anniversaire",
+    "duree": 240,
+    "description": "Formation : Comment souhaiter un anniversaire organisé par Pierre animée par Patrice",
+    "id": "b8b18ef3-7e11-4fe0-997a-1f8871fc4001",
+    "type": "Formation"
+  },
+  {
+    "date": "2025-09-07T05:45",
+    "proprietaire": "Pierre",
+    "titre": "Evenement",
+    "duree": 1,
+    "description": "Rendez-vous Personnel : Evenement organisé par Pierre.",
+    "id": "55b0a1a8-a6dd-4bda-bcc6-cd3f58eb941d",
+    "type": "RdvPersonnel"
+  }
+]
