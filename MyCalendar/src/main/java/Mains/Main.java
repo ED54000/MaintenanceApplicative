@@ -15,6 +15,8 @@ public class Main {
             } while (utilisateur == null);
 
             while (utilisateur.getNom() != null && !utilisateur.getNom().isEmpty()) {
+                System.out.println(utilisateur.getNom());
+                System.out.println(utilisateur);
                 new GestionEvenement(calendar, scanner, utilisateur).afficherMenu();
             }
         }

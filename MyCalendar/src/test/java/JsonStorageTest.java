@@ -1,5 +1,6 @@
 import Evenements.Rdv.RdvPersonnel;
 import Evenements.Sauvegarde.JsonStorage;
+import Management.CalendarManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.io.File;
@@ -36,7 +37,7 @@ public class JsonStorageTest {
         assertTrue(fichier.exists());
 
         // Chargement des événements depuis le fichier
-        List<Evenements> evenementsCharges = JsonStorage.chargerEvenements(TEST_FILE);
+        List<Evenements> evenementsCharges = JsonStorage.chargerEvenements(TEST_FILE,new CalendarManager());
 
         // Vérification que l'événement chargé est identique à celui sauvegardé
         assertEquals(1, evenementsCharges.size());

@@ -51,7 +51,7 @@ class GestionEvenement {
                 "5", () -> ajouterFormation(calendar,scanner,utilisateur),
                 "6", () -> supprimerEvenement(calendar,scanner),
                 "7", () -> JsonStorage.sauvegarderEvenements(calendar.events,"evenements.json"),
-                "8", () -> JsonStorage.chargerEvenements("evenements.json"),
+                "8", () -> JsonStorage.chargerEvenements("evenements.json",calendar),
                 "9", this::seDeconnecter
         );
     }
@@ -121,7 +121,7 @@ class GestionEvenement {
         System.out.print("Lieu : ");
         String lieu = scanner.nextLine();
         Utilisateurs participants = new Utilisateurs();
-        participants.addParticipants();
+        participants.addParticipants(scanner);
 
         Reunion reunion = new Reunion(
                 new TitreEvenement(titre),
@@ -234,6 +234,7 @@ class GestionEvenement {
     private void seDeconnecter() {
         System.out.println("Déconnexion...");
         utilisateur = null;
+        System.out.println(utilisateur);
     }
 
     private void choixInvalide() {
