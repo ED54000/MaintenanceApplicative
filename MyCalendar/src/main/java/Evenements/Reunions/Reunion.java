@@ -5,6 +5,7 @@ import Utilisateurs.Utilisateur;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class Reunion extends Evenements {
@@ -32,15 +33,15 @@ public class Reunion extends Evenements {
         return lieu.valeur();
     }
 
-    public String getParticipants() {
-        return participants.liste().stream().map(Utilisateur::toString).collect(Collectors.joining(", "));
+    public List<Utilisateur> getParticipants() {
+        return participants.liste();
     }
 
     @Override
     public JSONObject toJson() {
         JSONObject obj = super.baseJson();
-        obj.put("lieu", this.lieu);
-        obj.put("participants", new JSONArray(this.participants));
+        obj.put("lieu", this.getLieu());
+        obj.put("participants", new JSONArray(this.getParticipants()));
         return obj;
     }
 

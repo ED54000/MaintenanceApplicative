@@ -1,3 +1,5 @@
+package Management;
+
 import Evenements.EvenementPeriodique.*;
 import Evenements.Formations.Formation;
 import Evenements.Rdv.RdvPersonnel;
@@ -12,7 +14,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.WeekFields;
 import java.util.*;
 
-class GestionEvenement {
+public class GestionEvenement {
     private final CalendarManager calendar;
     private final Scanner scanner;
     private Utilisateur utilisateur;
@@ -25,7 +27,7 @@ class GestionEvenement {
         this.actions = initialiserActions();
     }
 
-    public void afficherMenu() {
+    public boolean afficherMenu() {
         System.out.println("\nBonjour, " + utilisateur);
         System.out.println("=== Menu Gestionnaire d'Événements ===");
         System.out.println("1 - Voir les événements");
@@ -39,8 +41,25 @@ class GestionEvenement {
         System.out.println("9 - Se déconnecter");
         System.out.print("Votre choix : ");
 
-        actions.getOrDefault(scanner.nextLine(), this::choixInvalide).run();
+        String choix = scanner.nextLine();
+
+        Map<String, Runnable> actions = Map.of(
+                "1", this::afficherEvenement,
+                "2", () -> ajouterRdvPersonnel(calendar, scanner, utilisateur),
+                "3", () -> ajouterReunion(calendar, scanner, utilisateur),
+                "4", () -> ajouterEvenementPeriodique(calendar, scanner, utilisateur),
+                "5", () -> ajouterFormation(calendar, scanner, utilisateur),
+                "6", () -> supprimerEvenement(calendar, scanner),
+                "7", () -> JsonStorage.sauvegarderEvenements(calendar.events, "evenements.json"),
+                "8", () -> JsonStorage.chargerEvenements("evenements.json", calendar),
+                "9", this::seDeconnecter
+        );
+
+        actions.getOrDefault(choix, this::choixInvalide).run();
+
+        return !choix.equals("9");
     }
+
 
     private Map<String, Runnable> initialiserActions() {
         return Map.of(
@@ -231,10 +250,9 @@ class GestionEvenement {
         return Integer.parseInt(scanner.nextLine());
     }
 
-    private void seDeconnecter() {
+    private Utilisateur seDeconnecter() {
         System.out.println("Déconnexion...");
-        utilisateur = null;
-        System.out.println(utilisateur);
+        return null;
     }
 
     private void choixInvalide() {

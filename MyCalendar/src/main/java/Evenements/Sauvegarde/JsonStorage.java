@@ -1,6 +1,7 @@
 package Evenements.Sauvegarde;
 
 import Evenements.Evenements;
+import Management.CalendarManager;
 import org.json.JSONArray;
 
 import java.io.FileWriter;
@@ -19,13 +20,14 @@ public class JsonStorage {
         }
         try (FileWriter file = new FileWriter(cheminFichier)) {
             file.write(jsonArray.toString(2));
+            System.out.println("Données sauvegardées");
         } catch (IOException ex) {
             throw new RuntimeException("Erreur lors de la sauvegarde", ex);
         }
     }
 
 
-    public static List<Evenements> chargerEvenements(String cheminFichier) {
+    public static  List<Evenements> chargerEvenements(String cheminFichier, CalendarManager calendarManager) {
         List<Evenements> evenements = new ArrayList<>();
 
         try {
@@ -39,6 +41,8 @@ public class JsonStorage {
             System.err.println("Erreur lors du chargement, fichier introuvable !");
         }
 
+        calendarManager.events =  evenements;
+        System.out.println("Données chargées");
         return evenements;
     }
 

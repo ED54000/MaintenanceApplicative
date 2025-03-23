@@ -16,15 +16,13 @@ public class Utilisateurs {
         nbUtilisateurs++;
     }
 
-    public void addParticipants(){
+    public void addParticipants(Scanner scanner) {
         System.out.println("Ajouter des participants ? (tapez 'fin' pour arrêter)");
-        try (Scanner scanner = new Scanner(System.in)) {
             String participant = scanner.nextLine();
             while (!participant.equals("fin")) {
                 addUtilisateur(new Utilisateur(participant));
                 System.out.println("Ajouter des participants ? (tapez 'fin' pour arrêter)");
                 participant = scanner.nextLine();
-            }
         }
     }
 

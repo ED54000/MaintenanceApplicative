@@ -1,6 +1,9 @@
+package Management;
+
 import Evenements.DateEvenement;
 import Evenements.EvenementPeriodique.EvenementPeriodique;
 import Evenements.*;
+import Evenements.Sauvegarde.JsonStorage;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -18,6 +21,7 @@ public class CalendarManager {
 
     public void ajouterEvent(Evenements evenements) {
         events.add(evenements);
+        JsonStorage.sauvegarderEvenements(events,"evenements.json");
     }
 
     public List<Evenements> eventsDansPeriode(DateEvenement debut, DateEvenement fin) {

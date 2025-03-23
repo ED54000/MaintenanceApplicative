@@ -1,3 +1,7 @@
+package Mains;
+
+import Management.CalendarManager;
+import Management.GestionEvenement;
 import Utilisateurs.AuthentificationService;
 import Utilisateurs.Utilisateur;
 
@@ -8,18 +12,20 @@ public class Main {
         CalendarManager calendar = new CalendarManager();
         try (Scanner scanner = new Scanner(System.in)) {
             AuthentificationService authentificationService = new AuthentificationService(scanner);
-            Utilisateur utilisateur;
 
-            do {
-                utilisateur = authentificationService.demanderConnexion();
-            } while (utilisateur == null);
+            while (true) {
+                Utilisateur utilisateur;
 
-            while (utilisateur.getNom() != null && !utilisateur.getNom().isEmpty()) {
-                System.out.println(utilisateur.getNom());
-                System.out.println(utilisateur);
-                new GestionEvenement(calendar, scanner, utilisateur).afficherMenu();
+                do {
+                    utilisateur = authentificationService.demanderConnexion();
+                } while (utilisateur == null);
+
+                GestionEvenement gestionEvenement = new GestionEvenement(calendar, scanner, utilisateur);
+
+                while (gestionEvenement.afficherMenu());
+
+               
             }
         }
     }
 }
-
