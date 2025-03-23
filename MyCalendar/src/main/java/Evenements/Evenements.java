@@ -1,6 +1,8 @@
 package Evenements;
 
 import java.time.LocalDateTime;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public abstract class Evenements {
     protected final TitreEvenement titre;
@@ -19,6 +21,19 @@ public abstract class Evenements {
 
 
     protected abstract String typeEvenement();
+    public abstract JSONObject toJson();
+
+    protected JSONObject baseJson() {
+        JSONObject obj = new JSONObject();
+        obj.put("id", this.getId().valeur());
+        obj.put("titre", this.getTitre());
+        obj.put("proprietaire", this.getProprietaire());
+        obj.put("date", this.convertirDate());
+        obj.put("duree", this.getDuree());
+        obj.put("description", this.description());
+        obj.put("type", this.getClass().getSimpleName());
+        return obj;
+    }
 
     public String description() {
         return typeEvenement() + " : " + titre.valeur() + " organisé par " + proprietaire.valeur();

@@ -1,6 +1,7 @@
 package Evenements.EvenementPeriodique;
 
 import Evenements.*;
+import org.json.JSONObject;
 
 public class EvenementPeriodique extends Evenements {
     private final FrequenceEvenement frequence;
@@ -23,6 +24,13 @@ public class EvenementPeriodique extends Evenements {
 
     public int getFrequence() {
         return frequence.jours();
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject obj = super.baseJson();
+        obj.put("frequence", this.frequence);
+        return obj;
     }
 }
 

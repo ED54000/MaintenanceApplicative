@@ -2,6 +2,8 @@ package Evenements.Reunions;
 
 import Evenements.*;
 import Utilisateurs.Utilisateur;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.stream.Collectors;
 
@@ -33,4 +35,13 @@ public class Reunion extends Evenements {
     public String getParticipants() {
         return participants.liste().stream().map(Utilisateur::toString).collect(Collectors.joining(", "));
     }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject obj = super.baseJson();
+        obj.put("lieu", this.lieu);
+        obj.put("participants", new JSONArray(this.participants));
+        return obj;
+    }
+
 }

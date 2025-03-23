@@ -1,6 +1,7 @@
 package Evenements.Rdv;
 
 import Evenements.*;
+import org.json.JSONObject;
 
 public class RdvPersonnel extends Evenements {
     public RdvPersonnel(EventId eventId, TitreEvenement titre, Proprietaire proprietaire, DateEvenement dateDebut, DureeEvenement duree) {
@@ -15,6 +16,11 @@ public class RdvPersonnel extends Evenements {
     @Override
     public String description() {
         return super.description() + ".";
+    }
+
+    @Override
+    public JSONObject toJson() {
+        return super.baseJson();
     }
 
 }
