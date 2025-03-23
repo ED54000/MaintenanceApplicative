@@ -23,8 +23,7 @@ public class Main {
                 GestionEvenement gestionEvenement = new GestionEvenement(calendar, scanner, utilisateur);
 
                 while (gestionEvenement.afficherMenu());
-
-               
+                
             }
         }
     }
